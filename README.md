@@ -30,19 +30,13 @@ docker run -d --name synchronet \
 ```
 
 # Initial config
-Assuming you are using dedicated volumes for thoses three, you need to copy back the default values, or uses your own.
+Assuming you are using dedicated volumes for data, text and ctrl.
 
-Get inside the container:
-```
-docker exec -it synchronet /bin/bash
-```
+Do a `touch local dir for ctrl/.init`, like `touch /datas/synchronet/ctrl/.init`, assuming `/datas/synchronet/ctrl` is the folder on the host which will be mounted inside the synchronet container.
 
-Then in the container, copy the default values:
-```
-cp -r ctrl-base/* ctrl/
-cp -r text-base/* text/
-exit
-```
+Then start the container, when detecting this `.init` file, the content will be copied on the new volumes.
+
+Don't do it twice or if you already have configs !
 
 # Environment
 

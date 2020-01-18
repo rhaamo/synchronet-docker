@@ -6,8 +6,11 @@ ENV SBBS_UID=1000
 ENV SBBS_GID=1000
 ENV SBBS_INIT_NODES=6
 
+# Do not touch
 ENV DEBIAN_FRONTEND noninteractive
 ENV INITRD No
+ENV SBBSCTRL /home/synchronet/sbbs/ctrl
+ENV TERM dumb
 
 LABEL org.label-schema.vcs-ref=$VCS_REF \
       org.label-schema.build-date=$BUILD_DATE
@@ -18,7 +21,7 @@ ADD ./wipremove.patch /tmp/wipremove.patch
 # Install prerequisites
 RUN apt update && \
 	apt install -y --no-install-recommends --fix-missing build-essential cvs wget libnspr4-dev libncurses5-dev liblhasa-dev && \
-	apt install -y --no-install-recommends --fix-missing unzip zip python perl dosemu pkg-config
+	apt install -y --no-install-recommends --fix-missing unzip zip python perl dosemu pkg-config libnspr4
 
 # Install SynchroNet
 RUN groupadd -r -g $SBBS_GID synchronet && useradd --no-log-init -r -u $SBBS_UID -g synchronet -d /home/synchronet -m synchronet
@@ -40,8 +43,6 @@ RUN mkdir -p ~/sbbs/data && cd ~/sbbs && \
 
 # Some default config
 RUN echo "PATH=\$PATH:~/sbbs/exec" >> ~/.profile && \
-	echo "SBBSCTRL=/home/synchronet/sbbs/ctrl" >> ~/.profile && \
-	echo "TERM=dumb" >> ~/.profile && \
 	mv ~/sbbs/ctrl ~/sbbs/ctrl-base && \
 	mv ~/sbbs/text ~/sbbs/text-base
 
