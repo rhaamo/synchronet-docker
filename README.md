@@ -8,6 +8,11 @@ Synchronet build, and run directory, is `/home/synchronet/sbbs`, `ctrl` and `dat
 
 http://wiki.synchro.net/config:nix
 
+How to launch scfg:
+```
+docker exec -it -u synchronet synchronet /home/synchronet/sbbs/exec/scfg -k -iD
+```
+
 # Build
 Uses `VERSION` (like `317b`) to build a specific version of SynchroNet.
 

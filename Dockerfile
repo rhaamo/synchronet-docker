@@ -42,7 +42,7 @@ RUN mkdir -p /home/synchronet/sbbs/data && cd /home/synchronet/sbbs && \
 	make
 
 # Some default config
-RUN echo "PATH=\$PATH:/home/synchronet/sbbs/exec" >> /home/synchronet/.profile && \
+RUN echo "PATH=\$PATH:/home/synchronet/sbbs/exec" >> /home/synchronet/.bashrc && \
 	mv /home/synchronet/sbbs/ctrl /home/synchronet/sbbs/ctrl-base && \
 	mv /home/synchronet/sbbs/text /home/synchronet/sbbs/text-base
 
