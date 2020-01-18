@@ -14,7 +14,19 @@ while [ "$nnode" -le "$maxnodes" ]; do
 	nnode=`expr "$nnode" + 1`
 done
 
-echo "--- force fix rights"
+echo "--- init default config"
+if [ "$SBBS_INIT_NOCTRL" -eq "1" ]; then
+	echo "--- ctrl will not be touched as SBBS_INIT_NOCTRL=$SBBS_INIT_NOCTRL"
+else
+	if [ -f "ctrl/sbbs.ini" ]; then
+		echo "--- ctrl/sbbs.ini already exists, not doing anything"
+	else
+		cp -r ctrl-base/* ctrl/
+		echo "--- deployed default config to ctrl volume"
+	fi
+fi
+
+echo "--- force fix rights (this can take time)"
 chown -R $SBBS_UID:$SBBS_GID /home/synchronet
 
 echo "--- run it"

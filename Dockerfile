@@ -5,6 +5,7 @@ ARG VERSION=317b
 ENV SBBS_UID=1000
 ENV SBBS_GID=1000
 ENV SBBS_INIT_NODES=6
+ENV SBBS_INIT_NOCTRL=0
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV INITRD No
@@ -25,7 +26,7 @@ RUN groupadd -r -g $SBBS_GID synchronet && useradd --no-log-init -r -u $SBBS_UID
 
 USER synchronet
 
-RUN mkdir -p ~/sbbs/data ~/sbbs/ctrl && cd ~/sbbs && \
+RUN mkdir -p ~/sbbs/data && cd ~/sbbs && \
 	wget ftp://vert.synchro.net/Synchronet/srun$VERSION.tgz && \
 	wget ftp://vert.synchro.net/Synchronet/ssrc$VERSION.tgz && \
 	tar xzf ssrc$VERSION.tgz && \
@@ -41,7 +42,8 @@ RUN mkdir -p ~/sbbs/data ~/sbbs/ctrl && cd ~/sbbs && \
 # Some default config
 RUN echo "PATH=\$PATH:~/sbbs/exec" >> ~/.profile && \
 	echo "SBBSCTRL=/home/synchronet/sbbs/ctrl" >> ~/.profile && \
-	echo "TERM=dumb" >> ~/.profile
+	echo "TERM=dumb" >> ~/.profile && \
+	mv ~/sbbs/ctrl ~/sbbs/ctrl-base
 
 ADD ./entrypoint.sh /
 
@@ -50,7 +52,8 @@ USER root
 RUN apt remove -y build-essential cvs wget libnspr4-dev libncurses5-dev && \
 	apt autoremove -y && \
 	apt clean && \
-	rm -f /tmp/wipremove.patch
+	rm -f /tmp/wipremove.patch && \
+	find ~/sbbs -name CVS -exec rm -rf {} \;
 
 # Back to docker things
 USER synchronet
