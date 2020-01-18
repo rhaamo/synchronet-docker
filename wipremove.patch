@@ -1,0 +1,25 @@
+They have been removed but the release is fucked...
+http://www.fireballex.com/?page=001-forum.ssjs&sub=dove-syncdisc&thread=6452
+
+--- ./exec/Makefile.orig	2020-01-18 09:48:37.891334141 +0100
++++ ./exec/Makefile	2020-01-18 09:48:56.195552849 +0100
+@@ -26,8 +26,6 @@
+ 	simple.bin \
+ 	type.bin \
+ 	wildcat.bin \
+-	wiplogin.bin \
+-	wipshell.bin \
+ 	wwiv.bin \
+ 	yesnobar.bin 
+ 
+--- ./exec/GNUmakefile.orig	2020-01-18 09:48:33.579282299 +0100
++++ ./exec/GNUmakefile	2020-01-18 09:48:47.771452463 +0100
+@@ -30,8 +30,6 @@
+ 	simple.bin \
+ 	type.bin \
+ 	wildcat.bin \
+-	wiplogin.bin \
+-	wipshell.bin \
+ 	wwiv.bin \
+ 	yesnobar.bin 
+ 
