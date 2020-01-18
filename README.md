@@ -1,6 +1,13 @@
 SynchroNET Docker image
 =======================
 
+# Important config notes
+By default this image builds and assume synchronet will runs under the `synchronet` user and group (both UID/GID are 1000 by default), you will probably needs to adapt your config file.
+
+Synchronet build, and run directory, is `/home/synchronet/sbbs`, `ctrl` and `data` directories are exposed `VOLUMES`.
+
+http://wiki.synchro.net/config:nix
+
 # Build
 Uses `VERSION` (like `317b`) to build a specific version of SynchroNet.
 
@@ -22,6 +29,21 @@ docker run -d --name synchronet \
 	synchronet:latest
 ```
 
+# Initial config
+Assuming you are using dedicated volumes for thoses three, you need to copy back the default values, or uses your own.
+
+Get inside the container:
+```
+docker exec -it synchronet /bin/bash
+```
+
+Then in the container, copy the default values:
+```
+cp -r ctrl-base/* ctrl/
+cp -r text-base/* text/
+exit
+```
+
 # Environment
 
 |Key|Default value|Description|
@@ -29,7 +51,6 @@ docker run -d --name synchronet \
 |SBBS_UID|1000|Runtime Synchronet User ID|
 |SBBS_GID|1000|Runtime Synchronet Group ID|
 |SBBS_INIT_NODES|6|Number of nodes to init by default|
-|SBBS_INIT_NOCTRL|0|1 will leave the ctrl (a docker volume) empty|
 
 # Volumes
 
@@ -37,6 +58,7 @@ docker run -d --name synchronet \
 |----|-----------|
 |/home/synchronet/sbbs/data|Datas volume|
 |/home/synchronet/sbbs/ctrl|Config volume|
+|/home/synchronet/sbbs/text|Text volume|
 
 # Versions
 

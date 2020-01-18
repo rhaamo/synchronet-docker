@@ -5,7 +5,6 @@ ARG VERSION=317b
 ENV SBBS_UID=1000
 ENV SBBS_GID=1000
 ENV SBBS_INIT_NODES=6
-ENV SBBS_INIT_NOCTRL=0
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV INITRD No
@@ -43,7 +42,8 @@ RUN mkdir -p ~/sbbs/data && cd ~/sbbs && \
 RUN echo "PATH=\$PATH:~/sbbs/exec" >> ~/.profile && \
 	echo "SBBSCTRL=/home/synchronet/sbbs/ctrl" >> ~/.profile && \
 	echo "TERM=dumb" >> ~/.profile && \
-	mv ~/sbbs/ctrl ~/sbbs/ctrl-base
+	mv ~/sbbs/ctrl ~/sbbs/ctrl-base && \
+	mv ~/sbbs/text ~/sbbs/text-base
 
 ADD ./entrypoint.sh /
 
@@ -52,14 +52,14 @@ USER root
 RUN apt remove -y build-essential cvs wget libnspr4-dev libncurses5-dev && \
 	apt autoremove -y && \
 	apt clean && \
-	rm -f /tmp/wipremove.patch && \
-	find ~/sbbs -name CVS -exec rm -rf {} \;
+	rm -f /tmp/wipremove.patch 
 
 # Back to docker things
 USER synchronet
 
 VOLUME /home/synchronet/sbbs/data
 VOLUME /home/synchronet/sbbs/ctrl
+VOLUME /home/synchronet/sbbs/text
 
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["/home/synchronet/sbbs/exec/sbbs"]	
